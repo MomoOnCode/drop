@@ -1,0 +1,74 @@
+Problem 1:
+
+  scanf("%d &c %d", &a, &b, &c);
+
+  scanf("%d/%d %d/%d", &a,&b,&c,&d);
+  
+Problem 2:
+
+  #include <stdio.h>
+/*
+* Kyle Mueller
+* 
+* 3/21/25
+*
+*/
+
+int main(void)
+{
+int a,b,c;
+int answer;
+printf("\n Enter value for a and b: ");
+scanf("%d %d",&a,&b);
+/* Change 1 : replace simple assignment operators by short-hand assignment */
+printf ("\n Expressions evaluated for simple assignments \n");
+a *= b;
+printf("\t a = a * b , a = %d\n",a);
+a /= b;
+printf("\t a = a / b , a = %d\n",a);
+a += b;
+printf("\t a = a + b , a = %d\n",a);
+a -= b;
+printf("\t a = a - b , a = %d\n",a);
+a %= b;
+printf("\t a = a %% b , a = %d\n",a);
+/* Change 2 : use parentheses to change the expression so that the + and - */
+/* operators occur before the * and / operators. Hint: the answer produced */
+/* should be 12. */
+c = 9 * (3 - 5 + 6) / (2 + 1);
+printf("\n what is the value of c = 9 * 3 - 5 + 6 / 2 + 1: ");
+scanf("%d",&answer);
+if(answer==c)
+printf("\n That's right ! \n");
+else
+{
+printf("\n Sorry the answer is: %d",c);
+printf("\n the expression is evaluated as c = ((((9 * 3) - 5) + (6 / 2)) + 1)\n\n");
+}
+/* Change 3 : Now, rewrite the original expression c = 9 * 3 - 5 + 6 / 2 + 1 */
+/* as a sequence of intermediate steps. Also add a printf after each */
+/* intermediate value indicating what part of the expression is captured by */
+/* each intermediate piece. */
+// c = 9 * 3 - 5 + 6 / 2 + 1;
+int temp;
+c = 3 - 5;
+printf("%d\n", c);
+c += 6;
+printf("%d\n", c);
+c *= 9;
+printf("%d\n", c);
+temp = 2 + 1;
+printf("%d\n", c);
+c /= temp;
+printf("%d\n", c);
+/* Change 4 : Use unary operators on a and b to assign the value 36 to c. */
+/* For example, c = ++a + b++ would result in 16 being assigned to c. */
+a = 10;
+b = 5;
+c = --a * --b;
+printf("\t c = ++a + b++ is %d when a is 10 and b is 5\n",c);
+return 0;
+}
+
+
+Problem 3:
