@@ -72,3 +72,58 @@ return 0;
 
 
 Problem 3:
+
+  
+#include <stdio.h>
+#define THIS_YEAR 2025
+#define MAX_DAYS 31
+#define MONTHS 12
+
+int main() {
+int CurrMonth;
+int CurrDay;
+int CurrYear;
+int BirthMonth;
+int BirthDay;
+int BirthYear;
+int NumYears;
+int NumDays;
+int NumMonths;
+char Discard;
+printf("Please enter the current date (MM/DD/YYYY): ");
+scanf("%d %c%d %c%d",&CurrMonth,&Discard,&CurrDay,&Discard,&CurrYear);
+printf("Please enter your birth date (MM/DD/YYYY): ");
+scanf("%d %c%d %c%d",&BirthMonth,&Discard,&BirthDay,&Discard,&BirthYear);
+/* Check dates entered here */
+if(CurrYear > THIS_YEAR || BirthYear > THIS_YEAR || BirthDay > MAX_DAYS || CurrDay > MAX_DAYS || BirthMonth > MONTHS || CurrMonth > MONTHS){
+    printf("INVALID INPUTS\n");
+    return 0;
+}
+if( CurrYear > BirthYear){
+    printf("Quit Using a time machine!\n");
+    return 0;
+}
+printf("%d %d %d\n", BirthMonth, BirthDay, BirthYear);
+
+/* Age calculated incorrectly */
+if(CurrYear > BirthYear){
+NumYears = CurrYear - BirthYear;
+printf("You are %d years old ",NumYears);
+}
+else if(BirthDay > CurrDay && CurrYear == BirthYear){
+    NumDays = CurrDay + (MAX_DAYS - BirthDay);
+    NumMonths = (CurrMonth - BirthMonth) - 1;
+    printf("You are %d months %d days old ", NumMonths, NumDays);
+}
+
+/* Multiway using if-else, change to switch */
+if ((BirthMonth == 12) || (BirthMonth == 1) || (BirthMonth == 2))
+printf("and were born in Winter. Brrr.\n");
+else if ((BirthMonth >= 3) && (BirthMonth <= 5))
+printf("and were born in Spring.\n");
+else if ((BirthMonth >= 6) && (BirthMonth <= 8))
+printf("and were born in Summer.\n");
+else if ((BirthMonth >= 9) && (BirthMonth <= 11))
+printf("and were born in Fall.\n");
+return 0;
+}
