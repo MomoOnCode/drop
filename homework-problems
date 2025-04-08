@@ -21,6 +21,7 @@ int answer;
 printf("\n Enter value for a and b: ");
 scanf("%d %d",&a,&b);
 /* Change 1 : replace simple assignment operators by short-hand assignment */
+
 printf ("\n Expressions evaluated for simple assignments \n");
 a *= b;
 printf("\t a = a * b , a = %d\n",a);
@@ -32,9 +33,11 @@ a -= b;
 printf("\t a = a - b , a = %d\n",a);
 a %= b;
 printf("\t a = a %% b , a = %d\n",a);
+
 /* Change 2 : use parentheses to change the expression so that the + and - */
 /* operators occur before the * and / operators. Hint: the answer produced */
 /* should be 12. */
+
 c = 9 * (3 - 5 + 6) / (2 + 1);
 printf("\n what is the value of c = 9 * 3 - 5 + 6 / 2 + 1: ");
 scanf("%d",&answer);
@@ -45,11 +48,13 @@ else
 printf("\n Sorry the answer is: %d",c);
 printf("\n the expression is evaluated as c = ((((9 * 3) - 5) + (6 / 2)) + 1)\n\n");
 }
+
 /* Change 3 : Now, rewrite the original expression c = 9 * 3 - 5 + 6 / 2 + 1 */
 /* as a sequence of intermediate steps. Also add a printf after each */
 /* intermediate value indicating what part of the expression is captured by */
 /* each intermediate piece. */
 // c = 9 * 3 - 5 + 6 / 2 + 1;
+
 int temp;
 c = 3 - 5;
 printf("%d\n", c);
@@ -70,10 +75,9 @@ printf("\t c = ++a + b++ is %d when a is 10 and b is 5\n",c);
 return 0;
 }
 
+ Problem 3:
 
-Problem 3:
 
-  
 #include <stdio.h>
 #define THIS_YEAR 2025
 #define MAX_DAYS 31
@@ -88,7 +92,7 @@ int BirthDay;
 int BirthYear;
 int NumYears;
 int NumDays;
-int NumMonths;
+int NumMonths = 0;
 char Discard;
 printf("Please enter the current date (MM/DD/YYYY): ");
 scanf("%d %c%d %c%d",&CurrMonth,&Discard,&CurrDay,&Discard,&CurrYear);
@@ -99,31 +103,161 @@ if(CurrYear > THIS_YEAR || BirthYear > THIS_YEAR || BirthDay > MAX_DAYS || CurrD
     printf("INVALID INPUTS\n");
     return 0;
 }
-if( CurrYear > BirthYear){
+if( CurrYear < BirthYear){
     printf("Quit Using a time machine!\n");
     return 0;
 }
-printf("%d %d %d\n", BirthMonth, BirthDay, BirthYear);
-
 /* Age calculated incorrectly */
+// Now fixed
+
 if(CurrYear > BirthYear){
 NumYears = CurrYear - BirthYear;
-printf("You are %d years old ",NumYears);
-}
-else if(BirthDay > CurrDay && CurrYear == BirthYear){
-    NumDays = CurrDay + (MAX_DAYS - BirthDay);
-    NumMonths = (CurrMonth - BirthMonth) - 1;
-    printf("You are %d months %d days old ", NumMonths, NumDays);
+    if(CurrMonth < BirthMonth){
+    NumYears -= 1;
+    }
+    if(CurrMonth == BirthMonth && CurrDay > BirthDay){
+        NumYears -= 1;
+    }
+    printf("You are %d years old\n", NumYears, NumMonths);
 }
 
+else if(CurrYear == BirthYear){
+    NumYears = 0;
+    if(CurrMonth > BirthMonth){
+        if(CurrDay >= BirthDay){
+            NumMonths = CurrMonth - BirthMonth;
+        }
+        else{NumMonths = (CurrMonth - BirthMonth) - 1;}
+    }
+    printf("You are %d months old\n", NumMonths);
+}
+
+
+
 /* Multiway using if-else, change to switch */
-if ((BirthMonth == 12) || (BirthMonth == 1) || (BirthMonth == 2))
-printf("and were born in Winter. Brrr.\n");
-else if ((BirthMonth >= 3) && (BirthMonth <= 5))
-printf("and were born in Spring.\n");
-else if ((BirthMonth >= 6) && (BirthMonth <= 8))
-printf("and were born in Summer.\n");
-else if ((BirthMonth >= 9) && (BirthMonth <= 11))
-printf("and were born in Fall.\n");
+switch (BirthMonth) {
+    case 12:
+    case 1:
+    case 2:
+        printf("and were born in Winter. Brrr.\n");
+        break;
+    case 3:
+    case 4:
+    case 5:
+        printf("and were born in Spring.\n");
+        break;
+    case 6:
+    case 7:
+    case 8:
+        printf("and were born in Summer.\n");
+        break;
+    case 9:
+    case 10:
+    case 11:
+        printf("and were born in Fall.\n");
+        break;
+    default:
+        printf("Invalid month.\n");
+        break;
+  }
 return 0;
+}
+
+
+Problem 5:
+
+
+#include <stdio.h>
+int main(){
+  
+  const int ID_MAX = 999999; // every student ID number is smaller than 999999
+  int id_number; // student ID number
+  float score = 0; // student score on Exam 1
+  float average; // average of all student Exam 1 scores
+  int students;
+  int i = 0;
+  float total = 0;
+  int disregard = 0;
+  
+  printf("Enter the number of student: ");
+  scanf("%d", &students);
+  int ids[students];
+  float grades[students];
+  
+  while(i <  students){
+    printf("Enter an ID: ");
+    scanf("%d", &id_number);
+
+    printf("Enter an Exam score: ");
+    scanf("%f", &score);
+    if(id_number < ID_MAX){
+      ids[i] = id_number;
+      grades[i] = score;
+      total += score;
+      i++;
+    }
+    else{
+      printf("Invalid ID disregarding score.\n");
+      disregard++;
+      }  
+  }
+  average = total / (students - disregard);
+  printf("Average Exam Score of %d students is: %.2f\n", students, average);
+  
+  for(int i = 0; i < students; i++){
+    printf("Student ID: %d\tScore: %f\n", ids[i], grades[i]);  
+  }
+  return 0;
+  }
+
+--------------------------------------
+
+
+#include <stdio.h>
+#define FREEZING 32
+
+int day = 1; // counter for days in this month
+int days_in_month; // number of days in this month
+int warm_days; // number of warm days in this month
+float temp; // temperature for each day
+int warm_days = 0;
+
+
+int main(){
+printf("How many days in the month? ");
+scanf("%d", &days_in_month);
+while(day <= days_in_month){
+  printf("Enter a temperature for the number %d day this month: ", day);
+  scanf("%f", &temp);
+  if(temp > FREEZING) warm_days++;
+  day++;
+}
+printf("The number of warm days this month is: %d", warm_days);
+
+
+  return 0;
+}
+--------------------------------------------
+
+if "xxxxxxxx" is the break statement, then gravity will never be "*= deflection", regardless of the if statement. as break is going to break completely out of the loop the second the if statement is true.
+if the x's are continue, then gravity wil never be "*= deflection" at all either., however while loop still iterates.
+
+--------------------------------------------------
+
+#include <stdio.h>
+
+int main(){
+
+  int value = 1, sum = 1, num;
+  printf("Enter and interger: ");
+  scanf("%d", &num);
+printf("%-9s%-12s\n", "Value", "Sum");
+int i = 1;
+while(i <= num){
+  printf("%-9d%-12d\n", value, sum);
+  value *= 2;
+  sum = value + sum;
+  i++;
+}
+  return 0;
 }

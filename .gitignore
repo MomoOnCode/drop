@@ -1,0 +1,7 @@
+# Common Files Produced When Doing HW #
+# #########################################
+
+inclass.*
+test.*
+*.exe
+*.out
