@@ -164,7 +164,7 @@ return 0;
 }
 
 
-Problem 5:
+problem 5:
 
 
 #include <stdio.h>
@@ -252,6 +252,7 @@ int main(){
   printf("Enter and interger: ");
   scanf("%d", &num);
 printf("%-9s%-12s\n", "Value", "Sum");
+
 int i = 1;
 while(i <= num){
   printf("%-9d%-12d\n", value, sum);
@@ -260,4 +261,233 @@ while(i <= num){
   i++;
 }
   return 0;
+}
+
+Homework 6:
+
+/*
+* Kyle Mueller
+* 
+*/
+#include <stdio.h>
+int main()
+{
+int cschair, sbechair;
+int csdesk, sbedesk;
+int i = 0;
+float chcost, decost;
+float cscost, sbecost;
+/* Input from user */
+printf("\nORDER FORM FOR OFFICE FURNITURE FOR UMD LABS\n");
+printf("\nEach chair costs $25 and each desk costs $40\n\n");
+printf("\nMaximum of 99 chairs and 99 tables allowed!!\n\n");
+printf("Enter the number of chairs and desks required for CS lab: ");
+scanf("%d %d", &cschair, &csdesk);
+printf("Enter the number of chairs and desks required for SBE lab: ");
+scanf("%d %d", &sbechair, &sbedesk);
+chcost = 25.0 * (cschair + sbechair);
+decost = 40.0 * (csdesk + sbedesk);
+cscost = 25.0*cschair + 40.0*csdesk;
+sbecost = 25.0*sbechair + 40.0*sbedesk;
+/* Printing out the table */
+printf("\n\nLab Chairs Chair cost Desks Desk cost Total for lab\n");
+printf("----- ------ ---------- ----- --------- -------------\n");
+/* CHECK */
+printf("CS %6d $%9.2f %5d $%8.2f $%12.2f\n", cschair, 25.0*cschair, csdesk, 40.0*csdesk,
+cscost);
+/* CHECK */
+printf("SBE %5d $%9.2f %5d $%8.2f $%12.2f\n", sbechair, 25.0*sbechair, sbedesk, 40.0*sbedesk,
+sbecost);
+for(i=0;i<58;i++)
+printf("-");
+printf("\n");
+printf("Total %3d $%9.2f %5d $%8.2f $%12.2f\n", cschair+sbechair, chcost, csdesk+sbedesk,
+decost, chcost+decost);
+for(i=0;i<58;i++)
+printf("-");
+printf("\n");
+}
+
+
+Homework 7:
+
+
+
+#include <stdio.h>
+void Intro( void ) {
+printf("This program calculates the batting average for a baseball\n");
+printf("player after reading the #atbats and #hits for the player.\n\n");
+}
+void ReadData(int *atbats, int *hits, int *walks) {
+printf("Note that the variable atbats is actually the address of the\n");
+printf("first argument in the call to ReadData, while *atbats is the\n");
+printf("number stored at that address.\n");
+printf("atbats = %d, while *atbats = %d\n\n",atbats,*atbats);
+printf("Please enter the number of atbats for the player: ");
+scanf("%d",atbats); /* Don't need & in front of atbats because atbats */
+/* IS an address - the address of the argument */
+printf("*atbats is now %d\n",*atbats);
+printf("Please enter the number of hits for the player: ");
+scanf("%d",hits);
+printf("*hits is now %d\n\n",*hits);
+// new
+printf("Please enter the number of walks for the player: ");
+scanf("%d",walks);
+printf("*walks is now %d\n\n",*walks);
+}
+
+float CalcAverage(int atbats, int hits) {
+float theaverage;
+theaverage = (float) hits / atbats;
+/* Need a return to indicate what CalcAverage calculates */
+return theaverage;
+}
+
+float CalculateOBP(int hits, int walks, int atbats) {
+float theaverage = (float) (hits + walks)/(atbats + walks);
+return theaverage;
+}
+
+
+int main() {
+int numwalks = 0;
+int numatbats = 0;
+int numhits = 0;
+float avg, obp;
+Intro();
+ReadData(&numatbats,&numhits, &numwalks);
+avg = CalcAverage(numatbats,numhits);
+obp = CalculateOBP(numhits, numwalks, numatbats);
+printf("Batting average is %1.3f\n",avg);
+printf("OBP is %1.3f\n",obp);
+}
+
+Homework 8:
+
+
+#include <stdio.h>
+#define NUM_OF_ELEMENTS 10
+
+void gatherData(int* ptr, int size){
+    printf("Enter 10 integers.\n");
+    for(int i = 0; i < size;i++){
+    printf("Enter number %d: ", i+1);
+     scanf("%d", &ptr[i]);
+    }
+}
+
+void printArr(int* ptr, int size){
+    for(int i = 0; i < size;i+=2){
+        printf("\n%d, %d", ptr[i], ptr[i+1]);
+    }
+}
+    
+float calculateSum(int* ptr, int size){
+    float sum=0;
+    for(int i=0;i < size;i++){
+        sum += ptr[i];
+    }
+return sum;
+}
+float calculateAverage(int* ptr, int size){
+   int sum;
+   sum = calculateSum(ptr, size);
+   return (float) (sum / size);
+}
+
+void reverseValues(int* ptr, int size){
+    for(int i = 0; i < size; i++){
+     int num = ptr[i];
+    int isNeg = 0;
+   
+     if(num < 0){
+        isNeg = 1;
+        num = -num;
+    }
+    int reversed = 0;
+    while(num > 0){
+    reversed = reversed * 10 + num % 10;
+    num /=10;
+        }
+    ptr[i] = isNeg ? -reversed : reversed;
+    }
+return;
+}
+
+int main() {
+  int arr[NUM_OF_ELEMENTS];
+  float avg,sum;
+  gatherData(arr, NUM_OF_ELEMENTS);
+  printArr(arr, NUM_OF_ELEMENTS);
+ sum = calculateSum(arr, NUM_OF_ELEMENTS);
+ printf("\n The sum of the ints is %.0f.", sum);
+ avg = calculateAverage(arr, NUM_OF_ELEMENTS);
+ printf("\n The average of the ints is %.2f.", avg);
+ reverseValues(arr, NUM_OF_ELEMENTS);
+ printArr(arr, NUM_OF_ELEMENTS);
+    return 0;
+}
+
+Homework 9:
+
+
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+int vowelCount(char s[], int size){
+    int count = 0;
+    for (int i = 0; i < size; i++) {
+        char c = s[i];
+        if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' || 
+            c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U') {
+            count++;
+        }
+    }
+    return count;
+}
+
+void strToLower(char s[], char buffer[], int size){
+    for(int i = 0;i<size;i++){
+        buffer[i] = tolower(s[i]);
+    }
+   // buffer[size+1] = '\0';
+    return;
+}
+void getMiddleChar(char s[], char middle_chars[]){
+    int size = strlen(s);
+//    printf("%d", size);
+    
+    if(size % 2 == 0){
+        int mid = size / 2;
+        //printf("\n%s\n", s[mid]);
+        middle_chars[0] = s[mid-1];
+        middle_chars[1] = s[mid];
+        middle_chars[2] = '\0';
+    } else{
+        int mid = (size - 1) / 2;
+       // printf("\n%c\n", s[mid]);
+        //printf("\n%c\n", s[mid+1]);
+        middle_chars[0] = s[mid];
+        middle_chars[1] = '\0';
+    }
+}
+
+int main() {
+    // Write C code here
+    char str[]= "Abc def!!! ab? yzyzyyz!";
+    int size = strlen(str);
+    char lowerCase_str[size+1];
+    char middle_chars[3];
+    
+    int vowels = vowelCount(str, size);
+    printf("There are %d vowels", vowels);
+    strToLower(str, lowerCase_str, size);
+    printf("\n%s\n", lowerCase_str);
+    
+    getMiddleChar("HelloWorld", middle_chars);
+    printf("%s", middle_chars);
+    
+    
+    return 0;
 }
