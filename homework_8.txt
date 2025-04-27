@@ -1,0 +1,292 @@
+Homework 8:
+
+
+// Homework 8:
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+#include <stdbool.h>
+
+int vowelCount(char s[], int size){
+    int count = 0;
+    for (int i = 0; i < size; i++) {
+        char c = s[i];
+        if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u' || 
+            c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U') {
+            count++;
+        }
+    }
+    return count;
+}
+
+void strToLower(char s[], char buffer[], int size){
+    for(int i = 0;i<size;i++){
+        buffer[i] = tolower(s[i]);
+    }
+   // buffer[size+1] = '\0';
+    return;
+}
+void getMiddleChar(char s[], char middle_chars[]){
+    int size = strlen(s);
+//    printf("%d", size);
+    
+    if(size % 2 == 0){
+        int mid = size / 2;
+        //printf("\n%s\n", s[mid]);
+        middle_chars[0] = s[mid-1];
+        middle_chars[1] = s[mid];
+        middle_chars[2] = '\0';
+    } else{
+        int mid = (size - 1) / 2;
+       // printf("\n%c\n", s[mid]);
+        //printf("\n%c\n", s[mid+1]);
+        middle_chars[0] = s[mid];
+        middle_chars[1] = '\0';
+    }
+}
+
+char* rotateStringLeft(const char s[], int k) {
+    int size = strlen(s);
+    if (size == 0) return NULL;
+    k %= size;
+
+    char* rotated = malloc(size + 1);
+    if (!rotated) return NULL;
+    for (int i = 0; i < size - k; i++) {
+        rotated[i] = s[i + k];
+    }
+    for (int i = 0; i < k; i++) {
+        rotated[size - k + i] = s[i];
+    }
+    rotated[size] = '\0';
+
+    return rotated;
+}
+
+bool isDigit(const char s[]){
+    int size = strlen(s);
+    int i =0, digits = 0;
+    while(i < size){
+        if(s[i] == '1' || s[i] == '2' || s[i] == '3' || s[i] == '4' || s[i] == '5' || s[i] == '6' || s[i] == '7' || s[i] == '8' || s[i] == '9'){
+            digits++;
+        }
+        i++;
+    }
+    if(digits == size) return true;
+    else return false;
+}
+
+char* getTheGerunds(const char s[]){
+    int size = strlen(s);
+    char* new_arr = malloc(size+1);
+    int word_start = 0;
+    int i = 0;
+    int write_pos = 0;
+    while(i<size){
+        word_start = i;
+        while(s[i] != ' ' && s[i] != '\0'){
+            i++; }
+    if(i - word_start >= 3 && s[i-1] == 'g' && s[i-2] == 'n' && s[i-3] == 'i'){
+        while(word_start < i){
+            new_arr[write_pos] = s[word_start];
+            write_pos++;
+            word_start++;
+        }
+        new_arr[write_pos] = ' ';
+        write_pos++;
+        i++;
+        }
+    else{
+        i++;
+        word_start = i;
+    }
+}
+    new_arr[write_pos] = '\0';
+    return new_arr;
+    
+}
+
+char* interleave(const char s1[], const char s2[]){
+    int size1 = strlen(s1);
+    int size2 = strlen(s2);
+    int size3 = size1 + size2;
+    int y = 0, x = 0, z = 0;
+    char* new_arr = malloc(size3+1);
+    if(size1 == size2){
+        while(y < size2){
+            new_arr[z] = s1[x];
+            x++;
+            z++;
+            new_arr[z] = s2[y];
+            y++;
+            z++;
+        }
+        new_arr[z] = '\0';
+    }
+    else {
+        while(x < size1){
+            new_arr[z] = s1[x];
+            x++;
+            z++;
+        }
+        while(y < size2){
+            new_arr[z] = s2[y];
+            y++;
+            z++;
+        }
+        new_arr[z] = '\0';
+    }
+    return new_arr;
+}
+
+bool sameChars(const char s1[], const char s2[]) {
+    if (s1 == NULL || s2 == NULL) return false;
+     int seen1[128] = {0}; 
+     int seen2[128] = {0}; 
+    for (int i = 0; s1[i] != '\0'; i++) {
+        seen1[s1[i]] = 1;
+    }
+    for (int i = 0; s2[i] != '\0'; i++) {
+        seen2[s2[i]] = 1;
+    }
+
+    for (int i = 0; i < 128; i++) {
+        if (seen1[i] != seen2[i]) {
+            return false;
+    }
+    }
+return true;
+}
+
+bool hasBalancedParentheses(const char s[]) {
+    if (s == NULL) return false;
+    int balance = 0;
+    for (int i = 0; s[i] != '\0'; i++) {
+        if (s[i] == '(') {
+            balance++;
+        } else if (s[i] == ')') {
+            balance--;
+            if (balance < 0) {
+                return false;
+        }
+      }
+    }
+    if(balance == 0){
+        return true;
+    }
+    else return false;
+}
+
+//Why does it have to be NULL
+int* largestNumberInText(const char text[]) {
+    if (text == NULL) return NULL;
+
+    int largest = -1; 
+    int current = 0;
+    int found_digit = 0;
+
+    for (int i = 0; text[i] != '\0'; i++) {
+        if (isdigit(text[i])) {
+            current = current * 10 + (text[i] - '0'); 
+            found_digit = 1;
+        } else 
+        {
+            if (found_digit) {
+                if (current > largest) {
+                    largest = current;
+                }
+                current = 0;
+                found_digit = 0;
+                
+      }
+     }
+    }
+    if (found_digit && current > largest) {
+        largest = current;
+    }
+    if (largest == -1) {
+        return NULL;
+    } else {
+        int* result = malloc(sizeof(int));
+        if(result != NULL) {
+            *result = largest;
+        }
+        return result;
+    }
+}
+
+
+
+
+
+int main() {
+    // Write C code here
+    char str[]= "Abc def!!! ab? yzyzyyz!";
+    printf("%s\n", str);
+    int size = strlen(str);
+    char lowerCase_str[size+1];
+    char middle_chars[3];
+    
+    int vowels = vowelCount(str, size);
+    printf("There are %d vowels", vowels);
+    strToLower(str, lowerCase_str, size);
+    printf("\n%s\n", lowerCase_str);
+    
+    getMiddleChar("HelloWorld", middle_chars);
+    printf("%s\n", middle_chars);
+    
+    char *rotated_str = rotateStringLeft(str, 9);
+//    printf("%s\n", str);
+    printf("%s\n", rotated_str);
+    
+    if(isDigit(str)) printf("Its not all digits!\n");
+    if(isDigit("1234")) printf("Its all digits!\n\n\n");
+    
+    
+    char str1[] = "Helping myself winning";
+    char* new_arr = getTheGerunds(str1);
+    printf("%s\n\n", new_arr);
+    
+    char str2[] = "pto";
+    char str3[] = "yhn";
+    char* new_arr1 = interleave(str2, str3);
+    printf("%s\n\n", new_arr1);
+    char str4[] = "a#";
+    char str5[] = "nnhy";
+    char* new_arr2 = interleave(str4, str5);
+    printf("%s\n\n", new_arr2);
+    
+
+    if(sameChars(str4, str5)) printf("yes\n");
+    else printf("no\n");
+    
+    if(sameChars(str3, str5)) printf("yes\n\n");
+    else printf("no\n\n");
+    if(hasBalancedParentheses("( ( ( ) ( ) ) ( ) )")){
+        printf("Yes balanced\n");
+    }
+    if(!hasBalancedParentheses("( ) )")){
+        printf("Not balanced\n\n");
+    }
+    
+    int* result = largestNumberInText("3, adfawdfa,,,14sa d 17");
+    if (result != NULL) {
+        printf("%d\n", *result); // prints 17
+        free(result);
+    } else {
+        printf("NULL\n");
+    }
+    result = largestNumberInText("one two onethousand eight");
+    if (result != NULL) {
+        printf("%d\n", *result);
+        free(result);
+    } else {
+        printf("Returned NULL\n");
+    }
+
+    
+    return 0;
+}

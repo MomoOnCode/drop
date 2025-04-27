@@ -1,0 +1,88 @@
+Homework 3:
+
+
+
+#include <stdio.h>
+#define THIS_YEAR 2025
+#define MAX_DAYS 31
+#define MONTHS 12
+
+int main() {
+int CurrMonth;
+int CurrDay;
+int CurrYear;
+int BirthMonth;
+int BirthDay;
+int BirthYear;
+int NumYears;
+int NumDays;
+int NumMonths = 0;
+char Discard;
+printf("Please enter the current date (MM/DD/YYYY): ");
+scanf("%d %c%d %c%d",&CurrMonth,&Discard,&CurrDay,&Discard,&CurrYear);
+printf("Please enter your birth date (MM/DD/YYYY): ");
+scanf("%d %c%d %c%d",&BirthMonth,&Discard,&BirthDay,&Discard,&BirthYear);
+/* Check dates entered here */
+if(CurrYear > THIS_YEAR || BirthYear > THIS_YEAR || BirthDay > MAX_DAYS || CurrDay > MAX_DAYS || BirthMonth > MONTHS || CurrMonth > MONTHS){
+    printf("INVALID INPUTS\n");
+    return 0;
+}
+if( CurrYear < BirthYear){
+    printf("Quit Using a time machine!\n");
+    return 0;
+}
+/* Age calculated incorrectly */
+// Now fixed
+
+if(CurrYear > BirthYear){
+NumYears = CurrYear - BirthYear;
+    if(CurrMonth < BirthMonth){
+    NumYears -= 1;
+    }
+    if(CurrMonth == BirthMonth && CurrDay > BirthDay){
+        NumYears -= 1;
+    }
+    printf("You are %d years old\n", NumYears, NumMonths);
+}
+
+else if(CurrYear == BirthYear){
+    NumYears = 0;
+    if(CurrMonth > BirthMonth){
+        if(CurrDay >= BirthDay){
+            NumMonths = CurrMonth - BirthMonth;
+        }
+        else{NumMonths = (CurrMonth - BirthMonth) - 1;}
+    }
+    printf("You are %d months old\n", NumMonths);
+}
+
+
+
+/* Multiway using if-else, change to switch */
+switch (BirthMonth) {
+    case 12:
+    case 1:
+    case 2:
+        printf("and were born in Winter. Brrr.\n");
+        break;
+    case 3:
+    case 4:
+    case 5:
+        printf("and were born in Spring.\n");
+        break;
+    case 6:
+    case 7:
+    case 8:
+        printf("and were born in Summer.\n");
+        break;
+    case 9:
+    case 10:
+    case 11:
+        printf("and were born in Fall.\n");
+        break;
+    default:
+        printf("Invalid month.\n");
+        break;
+  }
+return 0;
+}

@@ -1,0 +1,65 @@
+Homework 7:
+
+
+#include <stdio.h>
+#define NUM_OF_ELEMENTS 10
+
+void gatherData(int* ptr, int size){
+    printf("Enter 10 integers.\n");
+    for(int i = 0; i < size;i++){
+    printf("Enter number %d: ", i+1);
+     scanf("%d", &ptr[i]);
+    }
+}
+
+void printArr(int* ptr, int size){
+    for(int i = 0; i < size;i+=2){
+        printf("\n%d, %d", ptr[i], ptr[i+1]);
+    }
+}
+    
+float calculateSum(int* ptr, int size){
+    float sum=0;
+    for(int i=0;i < size;i++){
+        sum += ptr[i];
+    }
+return sum;
+}
+float calculateAverage(int* ptr, int size){
+   int sum;
+   sum = calculateSum(ptr, size);
+   return (float) (sum / size);
+}
+
+void reverseValues(int* ptr, int size){
+    for(int i = 0; i < size; i++){
+     int num = ptr[i];
+    int isNeg = 0;
+   
+     if(num < 0){
+        isNeg = 1;
+        num = -num;
+    }
+    int reversed = 0;
+    while(num > 0){
+    reversed = reversed * 10 + num % 10;
+    num /=10;
+        }
+    ptr[i] = isNeg ? -reversed : reversed;
+    }
+return;
+}
+
+int main() {
+  int arr[NUM_OF_ELEMENTS];
+  float avg,sum;
+  gatherData(arr, NUM_OF_ELEMENTS);
+  printArr(arr, NUM_OF_ELEMENTS);
+ sum = calculateSum(arr, NUM_OF_ELEMENTS);
+ printf("\n The sum of the ints is %.0f.", sum);
+ avg = calculateAverage(arr, NUM_OF_ELEMENTS);
+ printf("\n The average of the ints is %.2f.", avg);
+ reverseValues(arr, NUM_OF_ELEMENTS);
+ printArr(arr, NUM_OF_ELEMENTS);
+    return 0;
+}

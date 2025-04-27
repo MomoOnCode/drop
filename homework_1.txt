@@ -1,0 +1,5 @@
+Homework 1:
+
+  scanf("%d &c %d", &a, &b, &c);
+
+  scanf("%d/%d %d/%d", &a,&b,&c,&d);

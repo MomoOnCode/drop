@@ -1,0 +1,52 @@
+Homework 6:
+
+
+#include <stdio.h>
+void Intro( void ) {
+printf("This program calculates the batting average for a baseball\n");
+printf("player after reading the #atbats and #hits for the player.\n\n");
+}
+void ReadData(int *atbats, int *hits, int *walks) {
+printf("Note that the variable atbats is actually the address of the\n");
+printf("first argument in the call to ReadData, while *atbats is the\n");
+printf("number stored at that address.\n");
+printf("atbats = %d, while *atbats = %d\n\n",atbats,*atbats);
+printf("Please enter the number of atbats for the player: ");
+scanf("%d",atbats); /* Don't need & in front of atbats because atbats */
+/* IS an address - the address of the argument */
+printf("*atbats is now %d\n",*atbats);
+printf("Please enter the number of hits for the player: ");
+scanf("%d",hits);
+printf("*hits is now %d\n\n",*hits);
+// new
+printf("Please enter the number of walks for the player: ");
+scanf("%d",walks);
+printf("*walks is now %d\n\n",*walks);
+}
+
+float CalcAverage(int atbats, int hits) {
+float theaverage;
+theaverage = (float) hits / atbats;
+/* Need a return to indicate what CalcAverage calculates */
+return theaverage;
+}
+
+float CalculateOBP(int hits, int walks, int atbats) {
+float theaverage = (float) (hits + walks)/(atbats + walks);
+return theaverage;
+}
+
+
+int main() {
+int numwalks = 0;
+int numatbats = 0;
+int numhits = 0;
+float avg, obp;
+Intro();
+ReadData(&numatbats,&numhits, &numwalks);
+avg = CalcAverage(numatbats,numhits);
+obp = CalculateOBP(numhits, numwalks, numatbats);
+printf("Batting average is %1.3f\n",avg);
+printf("OBP is %1.3f\n",obp);
+return 0;
+}
