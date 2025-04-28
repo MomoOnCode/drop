@@ -1,4 +1,4 @@
-Homework 5:
+Homework 5 Formatting:
 
 /*
 * Kyle Mueller
@@ -41,4 +41,6 @@ decost, chcost+decost);
 for(i=0;i<58;i++)
 printf("-");
 printf("\n");
+
+return 0;
 }

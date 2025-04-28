@@ -1,0 +1,173 @@
+// Homework 9 Structs:
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_CHAR 50
+#define MAX_STUDENT 500
+#define MAX_CLASSES 1000
+
+
+struct Person{
+	char firstname[MAX_CHAR];
+	char lastname[MAX_CHAR];
+	int id;
+	bool student_status;
+};
+
+
+struct UTAclass{
+	char department[MAX_CHAR];
+	int course_num;
+	struct Person * professor;
+	int size;
+	int enrolled_count;
+	struct Person * students[MAX_STUDENT];
+};
+
+
+void printPerson(struct Person person){
+	if(!person.student_status){
+		printf("Prof. %s %s\n", person.firstname, person.lastname);
+	}
+	else{
+		printf("Name: %s %s\n", person.firstname, person.lastname);
+	}
+}
+
+
+void printutaclass(struct UTAclass class){
+	printf("%s %d\n", class.department, class.course_num);
+}
+
+
+void createPerson(struct Person* p){
+    int status = 0;
+    printf("Is this person a student?(0 for no, 1 for yes): ");
+    scanf("%d", &status);
+    if(status) p->student_status = true;
+    else p->student_status = false;
+    
+    char first[MAX_CHAR];
+    char last[MAX_CHAR];
+    printf("Enter First name: ");
+    scanf("%s", first);
+    strcpy(p->firstname, first);
+    
+    printf("Enter Last name: ");
+    scanf("%s", last);
+    strcpy(p->lastname, last);
+    
+   
+    printf("Enter ID: ");
+    scanf("%d", &p->id);
+    
+}
+
+
+void createUTAclass(struct UTAclass* c, struct Person* p){
+    c->professor = p;
+    char department[MAX_CHAR];
+    printf("Enter department: ");
+    scanf("%s", department);
+    strcpy(c->department, department);
+    
+    printf("Enter Course Number: ");
+    scanf("%d", &c->course_num);
+    
+    printf("Enter size of class: ");
+    scanf("%d", &c->size);
+}
+void printClass(struct UTAclass* c){
+    printf("%s %d\n\tSize:%d\n\tProfessor: Prof. %s", c->department, c->course_num, c->size, c->professor->lastname);
+}
+
+
+void updateSummerClasses(struct UTAclass classes[], int *num_classes, struct UTAclass* new_class){
+    for(int i =0; i < *num_classes; i++){
+        if(strcmp(classes[i].department, new_class->department) == 0 && classes[i].course_num == new_class->course_num){
+            printf("Duplicate class not added.\n");
+            return;
+        }
+    }
+    classes[*num_classes] = *new_class;
+    (*num_classes)++;
+}
+
+
+int enroll(struct Person* student, struct UTAclass* course){
+    if(course->enrolled_count < course->size){
+        //theres room to enroll
+        course->students[course->enrolled_count] = student;
+        course->enrolled_count++;
+        return 0;
+    }
+    else{
+        printf("Not enough room in class, not enrolled.\n");
+        return 1;
+    }
+}
+
+void printSchedule(struct Person student, struct UTAclass schedule[], int num_classes){
+    printf("%s %s\n", student.firstname, student.lastname);
+    for(int j = 0; j < num_classes;j++){ 
+    for(int i =0; i < schedule[j].enrolled_count;i++){
+        if(schedule[j].students[i]->id == student.id){
+            printf("%s %d\n", schedule[j].department, schedule[j].course_num);
+            }
+        }
+    }
+}
+/*
+
+Create a data structure to hold all of the UTA classes in for a particular semester and call
+it summer2024. This should be a variable held in main. You can safely assume there are going to
+be fewer than one thousand classes in a semester. Your data structure should not duplicate
+UTAclasses. What type should this be?
+
+I strongly feel like all of these assingments are meant for antoher language. I dont think there is any data type in C that will not allow duplicates?(Im also learning so I understand I can be completely wrong)
+It has been a source of confusion for me througout the homeworks, sometimes it isnt clear to someone who doesnt know other languages to figure out what you mean, or when we should ignore entire parts of the assingment.
+*/
+
+int main(){
+struct UTAclass summerClasses[MAX_CLASSES];
+struct Person p1, p2, p3, p4, s1, s2, s3, s4, s5;
+createPerson(&p1);
+createPerson(&p2);
+createPerson(&p3);
+createPerson(&p4);
+createPerson(&s1);
+createPerson(&s2);
+createPerson(&s3);
+
+int num_classes = 0;
+struct UTAclass c1, c2, c3, c4;
+createUTAclass(&c1, &p1);
+updateSummerClasses(summerClasses, &num_classes, &c1);
+createUTAclass(&c2, &p2);
+updateSummerClasses(summerClasses, &num_classes, &c2);
+createUTAclass(&c3, &p3);
+updateSummerClasses(summerClasses, &num_classes, &c3);
+createUTAclass(&c4, &p4);
+updateSummerClasses(summerClasses, &num_classes, &c4);
+//enrolling first student
+enroll(&s1, &summerClasses[0]);
+enroll(&s1, &summerClasses[2]);
+enroll(&s1, &summerClasses[3]);
+//enrolling second student
+enroll(&s2, &summerClasses[0]);
+enroll(&s2, &summerClasses[1]);
+enroll(&s2, &summerClasses[2]);
+enroll(&s2, &summerClasses[3]);
+//enrolling a third student
+enroll(&s3, &summerClasses[3]);
+enroll(&s3, &summerClasses[0]);
+
+printSchedule(s1, summerClasses, num_classes);
+printf("----------------------------\n");
+printSchedule(s2, summerClasses, num_classes);
+printf("----------------------------\n");
+printSchedule(s3, summerClasses, num_classes);
+	return 0;
+}
